@@ -1,0 +1,68 @@
+{% extends "home/base2.html" %}
+{% block title %}KGP Library{% endblock title %}
+{% block content %}
+		<div class="content-section" style="text-align: center;">
+			<h1>{{booking.user.first_name}} {{booking.user.last_name}} Details</h1>
+		</div>
+		<br>
+		<div class="content-section">
+			<p><h2 class="account-heading"><u>Your Booking Details</u></h2></p>
+            <p><h4><span style="color: black;">Roll No :</span> {{booking.user.username}}</h4></p>
+            <p><h4><span style="color: black;">Seat Name :</span> {{booking.seatbooked}}</h4></p>
+            <p><h4 style="color: black;">Booking Status : {% if booking.status == 1 %}<span style="color:orange"><b>Booked</b></span>{% elif booking.status == 2 %}<span style="color:lightgreen"><b>Occupied</b></span>{% elif booking.status == 3 %}<span style="color:yellow"><b>Idle</b></span>{% endif %}</h4></p>
+            <br>
+	    {% if booking.status == 2 %}
+        	<a href="{% url 'student-idle' student_roll %}" class="btn btn-warning" role="button">Idle Seat</a>
+        {% elif booking.status == 3 %}
+        	<a href="{% url 'student-overidle' student_roll %}" class="btn btn-success" role="button">Terminate Idling</a>
+        {% endif %}
+        <a href="{% url 'student-terminate' student_roll %}" class="btn btn-danger" role="button">Terminate Booking</a>
+		</div>
+		<br>
+		<div class="content-section">
+			<p><h2 class="account-heading"><u>Your Belonging Details</u></h2></p>
+			<div class="content-section">
+			<h4>GADGETS</h4>
+	        {% if gadget_count == 0 %}
+	               <h4 style="color: black;">No gadgets taken</h4>
+	        {% else %}
+	    		{% for gadget in gadgets %}
+	    			{% if gadget.taken %}
+	                    <div class="content-section">
+	                        <div class="media">
+                            	<div class="media-left">
+                                	<img class="media-object" style="height: 100px; width: 120px; margin-right: 10px;" src="{{gadget.image.url}}">
+                            	</div>
+                            	<div class="media-body">
+                                	<h2 class="media-heading">{{gadget.company}} {{gadget.item}}</h2>
+                                	<p class="text-secondary">Rs.{{gadget.price}}/-</p>
+                            	</div>
+                        	</div>
+	                    </div>
+	                    <br>
+	                {% endif %}
+
+	            {% endfor %}
+	        {% endif %}
+	    </div>
+	    <br>
+	    <div class="content-section">
+	        <h4>BOOK: <span style="color: black;">{% if book.book == '' %}None{% else %}{{book.book}}{% endif %}</span></h4>
+	    </div>
+	    <br>
+	    <a href="{% url 'student-info' student_roll %}" class="btn btn-info" role="button">Change Belongings Status</a>
+	</div>
+	<br>
+	    <div class="content-section">
+	    	<p><h2 class="account-heading"><u>Your Checking Details</u></h2></p>
+	    	{% for checktime in checktimes %}
+	    		{% if checktime.category == 1 %}
+	    			<p><h4><span style="color: black;">Check-in:</span> {{checktime.time}}</h4></p>
+	    		{% elif checktime.category == 2 %}
+	    			<p><h4><span style="color: black;">Idle-out:</span> {{checktime.time}}</h4></p>
+	    		{% elif checktime.category == 3 %}
+	    			<p><h4><span style="color: black;">Idle-in:</span> {{checktime.time}}</h4></p>
+	    		{% endif %}
+	    	{% endfor %}
+	    </div>
+{% endblock content %}

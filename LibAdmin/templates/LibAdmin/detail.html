@@ -1,0 +1,51 @@
+{% extends "home/base2.html" %}
+{% block title %}KGP Library{% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="content-section">
+		<h3 style="text-align: center;">Enter Information Of {{student.first_name}} {{student.last_name}}'s Belongings</h3>
+	</div>
+	<br>
+	<form method="POST">
+		{% csrf_token %}
+		{{ formset.management_form }}
+		<fieldset class="form-group">
+			<div class="content-section">
+				<h4>GADGETS</h4>
+			{% for form,gadget in zipped %}
+				<div class="content-section">
+					<div class="row">
+						<div class="col-sm-1" style="margin-top: 35px;">
+					{{ form|crispy }}
+				</div>
+				<div class="col-sm-11">
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="media-object" style="height: 100px; width: 120px; margin-right: 10px;" src="{{gadget.image.url}}">
+                       	</div>
+                        <div class="media-body">
+                            <h2 class="media-heading">{{gadget.company}} {{gadget.item}}</h2>
+                            <p class="text-secondary">Rs.{{gadget.price}}/-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+                <br>
+			{% endfor %}
+			{% if gadget_count == 0 %}
+				<p><h5 style="color: black;">**********************You have no gadgets registered***********************</h5></p>
+				<p><h5 style="color: black;">Administration will not be responsible for your lost gadgets inside library</h5></p>
+			{% endif %}
+		</div>
+			<br>
+			<div class="content-section">
+				<h4>BOOK</h4>
+			{{ b_form|crispy }}
+		</div>
+		</fieldset>
+		<div class="form-group">
+			<button class="btn btn-success" type="submit">Confirm</button>
+		</div>
+	</form>
+{% endblock content %}

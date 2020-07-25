@@ -1,0 +1,59 @@
+{% extends "home/base1.html" %}
+{% block title %}{{user.username}}{% endblock title %}
+{% block content %}
+    {% if note_count == 0 %}
+    <div class="container">
+        <div class="content-section" style="text-align: center;">
+          <h3>You have no new notifications</h3>
+        </div>
+    </div>
+    {% else %}
+    <div class="content-section" style="text-align: center;">
+      <h2>Your Notifications</h2>
+    </div>
+		    {% for notification in notifications %}
+        <br>
+            <div class="content-section">
+                {% if notification.category == 1 %}
+                    <h2 class="account-heading">ALERT!!</h2><h6 style="text-align:right;">{{notification.time}}</h6>
+                    <div class="border-top pt-3">
+                       <h5>Your <b>booking</b> for <b>seat:{{notification.seatname}}</b> will be cancelled in 10 mins if you fail to check-in by then</h5> 
+                    </div>
+                {% elif notification.category == 2 %}
+                    <h2 class="account-heading">CANCELLED!!</h2><h6 style="text-align:right;">{{notification.time}}</h6>
+                    <div class="border-top pt-3">
+                       <h5>Your <b>booking</b> for <b>seat:{{notification.seatname}}</b> has been cancelled as you failed to check-in in the granted time</h5> 
+                    </div>
+                {% elif notification.category == 3 %}
+                    <h2 class="account-heading">ALERT!!</h2><h6 style="text-align:right;">{{notification.time}}</h6>
+                    <div class="border-top pt-3">
+                       <h5>Your <b>idled seat:{{notification.seatname}}</b> will be cancelled in 10 mins if you fail to check-in back by then</h5> 
+                    </div>
+                {% elif notification.category == 4 %}
+                    <h2 class="account-heading">CANCELLED!!</h2><h6 style="text-align:right;">{{notification.time}}</h6>
+                    <div class="border-top pt-3">
+                       <h5>Your <b>idled seat:{{notification.seatname}}</b> has been cancelled as you failed to check-in back in the idling time given by you. Your belongings(if any) may get harmed</h5> 
+                    </div>
+                {% elif notification.category == 5 %}
+                    <h2 class="account-heading">CLUB REQUEST</h2><h6 style="text-align:right;">{{notification.time}}</h6>
+                    <div class="border-top pt-3">
+                       <p><h5><a href="{% url 'chatbox' notification.roll %}"><b>{{notification.name}}</b></a> wants to book a seat for u</h5></p>
+                       <p><h5 style="color: black;">Do you Confirm?</h5></p>
+                       <a href="{% url 'yes_clubrequest' notification.roll %}" class="btn btn-success" role="button">Yes</a>
+                       <a href="{% url 'no_clubrequest' notification.roll %}" class="btn btn-danger" role="button">No</a> 
+                    </div>
+                    <div class="border-top pt-3">
+                      <h6><b>NOTE:</b> Clicking on the name u will reach the requesters chatbox</h6>
+                    </div>
+                {% elif notification.category == 6 %}
+                    <h2 class="account-heading">CLUB CANCELLED</h2><h6 style="text-align:right;">{{notification.time}}</h6>
+                    <div class="border-top pt-3">
+                       <p><h5><a href="{% url 'chatbox' notification.roll %}"><b>{{notification.name}}</b></a> has ended clubbing with you</h5></p>
+                     </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <br>
+        <a href="{% url 'delete_notices' %}" class="btn btn-danger" role="button">Seen All</a>
+    {% endif %}
+{% endblock content %}

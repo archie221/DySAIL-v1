@@ -1,0 +1,27 @@
+{% extends "home/base1.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="content-section">
+		<form method="POST">
+			{% csrf_token %}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Search Student</legend>
+				{{ r_form|crispy }}<button class="btn btn-success form-control" type="submit" ><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+			</fieldset>
+		</form>
+	</div>
+	<br>
+	{% if chatnotes > 0 %}
+	<div class="content-section" style="text-align: center;">
+		<h2>Unseen Messages</h2>
+	{% for chat in user.chat_set.all %}
+		{% if chat.noted %} 
+			<div class="content-section" style="text-align: center;">
+		    	<h4 style="color: black;"><b><i class="fa fa-user-circle-o" aria-hidden="true"></i> {{chat.receiver}}</b> has messaged you</h4>
+				<a href= "{% url 'chatbox' chat.receiver %}" class="btn btn-success" role="button" > CHAT </a>
+			</div>
+	    {% endif %}
+    {% endfor %}
+    </div>
+    {% endif %}
+{% endblock content %}

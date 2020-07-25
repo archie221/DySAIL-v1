@@ -1,0 +1,32 @@
+{% extends "home/base1.html" %}
+{% block title %}{{user.username}}-Gadgets{% endblock title %}
+{% block content %}
+        {% if gadget_count == 0 %}
+        <div class="container">
+            <div class="content-section" style="text-align: center;">
+                <h3>You have no gadgets registered</h3>
+                <a href="{% url 'update_gadgets' %}" class="btn btn-info" role="button">Update</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="content-section" style="text-align: center;">
+            <h2>Your Gadgets</h2>
+        </div>
+    		{% for gadget in user.gadget_set.all %}
+            <br>
+                    <div class="content-section">
+                        <div class="media">
+                            <div class="media-left">
+                                <img class="media-object" style="height: 100px; width: 120px; margin-right: 10px;" src="{{gadget.image.url}}">
+                            </div>
+                            <div class="media-body">
+                                <h2 class="media-heading">{{gadget.company}} {{gadget.item}}</h2>
+                                <p class="text-secondary">Rs.{{gadget.price}}/-</p>
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+            <br>
+            <a href="{% url 'update_gadgets' %}" class="btn btn-info" role="button">Update</a>
+        {% endif %}
+{% endblock content %}

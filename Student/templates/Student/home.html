@@ -1,0 +1,49 @@
+{% extends "home/base1.html" %}
+{% block title %}{{user.username}}|DySAIL{% endblock title %}
+{% block content %}
+	<div class="content-section" style="text-align: center;">
+		<h2>Hey {{user.first_name}}!</h2>
+		<h2><b>Welcome to the Student Interface of DySAIL</b></h2>
+		<h4 style="color: black;">The right place to lookout/book for seats in Library</h4>
+	</div>
+	<br>
+	<div class="dropdown">
+    	<button class="dropbtn">BEGINNER</button>
+  		<div class="dropdown-content">
+  			<ul>
+	    		<li>Fill in the form for <span style="color: #B03060;">Gadgets</span> you wish to take inside library for security purposes</li>
+				<li>Then look out for a seat in <span style="color: #B03060;">View Seats</span></li>
+				<li>To book <span style="color: #B03060;">Multiple Seats</span> go to <span style="color: #B03060;">Book Seats</span></li>
+				<li>You can view your <span style="color: #B03060;">Profile</span> and even update it</li>
+				<li>You can send <span style="color: #B03060;">Messages</span> to your friend just by knowing their RollNo</li>
+			</ul>
+  		</div>
+	</div>
+	<div class="dropdown" style="text-align: center;">
+    	<button class="dropbtn">GUIDELINES</button>
+  		<div class="dropdown-content">
+  			<ul>
+	    		<li>The gadgets you register here are shown in the Library Interface so fill-in only those that you take to library</li>
+				<li>From this Interface you can only book suitable seat, but further status of your booking is changed from Library Interface only</li>
+				<li>You will receive <span style="color: #B03060;">Notifications</span> which include alerts, cancellations, clubbing requests and clubbing cancellations</li>
+			</ul>
+  		</div>
+	</div>
+	<div class="dropdown" style="text-align: right;">
+    	<button class="dropbtn">REMEMBER</button>
+  		<div class="dropdown-content">
+  			<ul>
+	    		<li>For loading latest updates on any webpage, keep doing <span style="color: #B03060;"><b>REFRESH</b></span></li>
+				<li>For viewing messages, notifications, current booking status and current seat status, Refreshing is a necessity</li>
+				<li>Intentionally Messaging those who are not your friends may result in termination of your account</li>
+				<li>Clicking <span style="color: #B03060;">DySAIL</span> will take you to homepage, automatically logging you out</li>
+			</ul>
+  		</div>
+	</div>
+	<br>
+	<div class="content-section" style="text-align: center;">
+		<h3>DySAIL gives you wings, but its your duty to flap them</h3>
+		<h3><b>Keep Refreshing :)</b></h3>
+	</div>
+{% endblock content %}
+

@@ -1,0 +1,26 @@
+{% extends "home/base1.html" %}
+{% block title %}{{user.username}}{% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="content-section">
+		<form method="POST">
+			{% csrf_token %}
+			{{ formset.management_form }}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Club Multiple Ids</legend>
+				{% if bookseat.amount == 0 %}
+					<h4>You have not opted for any extraseat, hence nothing to club</h4>
+					<p><a href="{% url 'book-details' %}" class="btn btn-info" role="button">Return</a><a style="color: black;"> to Book Again!</a></p>
+				{% endif %}
+				{% for form in formset %}
+					{{ form|crispy }}
+				{% endfor %}
+			</fieldset>
+			{% if bookseat.amount != 0 %}
+				<div class="form-group">
+					<button class="btn btn-info" type="submit">Club</button>
+				</div>
+			{% endif %}
+		</form>
+	</div>
+{% endblock content %}

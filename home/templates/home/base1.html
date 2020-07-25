@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+   <!-- Required meta tags -->
+    <meta charset="utf-8">
+    {% if user.is_authenticated %}
+      <title>{{user.username}}</title>
+    {% else %}
+      <title>Student</title>
+    {% endif %}
+    <link rel="shortcut icon" href="{% static 'base/favicon.ico' %}"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  
+</head>
+<body style="background-image: url('{% static 'base/lib.jpg' %}'); background-repeat:no-repeat; background-attachment: fixed; background-size: 2000px 1000px;">
+
+<nav class="navbar navbar-inverse" style="background-color: #111;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <div class="navbar-header"><img src="{% static 'base/Titleimage.jpg' %}" alt="Title" height="50"></div>
+      <a class="navbar-brand" href="{% url 'home' %}">&nbsp;ySAIL&nbsp;&nbsp;&nbsp;&nbsp;</a>
+      <img src="{% static 'base/books.jpeg' %}" alt="Books" height="50" style="border-radius: 50%">
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      {% if user.is_authenticated %}
+        <ul class="nav navbar-nav">
+          <li><a href="{% url 'student-home' %}"><i class="fa fa-home fa-lg" aria-hidden="true"></i> {{user.username}}</a></li>
+        </ul>
+      {% endif %}
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'profile' %}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Profile</a></li>
+          <li><a href="{% url 'logout' %}">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
+          <li><a href="{% url 'signup' %}"><i class="fa fa-user-plus" aria-hidden="true"></i> Register</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% if user.is_authenticated %}
+      <div class="sidenav">
+          <a href="{% url 'view-seats' %}"><i class="fa fa-eye fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;View Seats</a>
+          <a href="{% url 'book-details' %}"><i class="fa fa-ticket fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Book Seat</a>
+          {% for chat_unseen in user.chat_unseen_set.all %}
+            {% if chat_unseen.count > 0 %}
+              <a href="{% url 'chat' %}"><i class="fa fa-envelope icon fa-2x"></i><span class="badge">{{chat_unseen.count}}</span>Messages</a>
+            {% else %}
+              <a href="{% url 'chat' %}"><i class="fa fa-envelope icon fa-2x"></i>&nbsp;&nbsp;&nbsp;Messages</a>
+            {% endif %} 
+          {% endfor %}
+          <a href="{% url 'gadgets' %}"><i class="fa fa-laptop fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Gadgets</a> 
+          {% for new_notes in user.new_notes_set.all %}
+            {% if new_notes.count > 0 %}
+              <a href="{% url 'notices' %}"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i><span class="badge">{{new_notes.count}}</span>Notifications</a>
+            {% else %}
+              <a href="{% url 'notices' %}"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Notifications</a>
+            {% endif %} 
+          {% endfor %}
+          <a id="ref" href=""><i class="fa fa-refresh" aria-hidden="true"></i> REFRESH</a>
+      </div>
+      <main role="main" class="container margin">
+      {% else %}
+      <main role="main" class="container">
+        {% endif %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}{% endblock content %}
+    </main>
+    <br>
+    <br>
+    <br>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    {% block javascript %}
+    {% endblock javascript %}
+</body>
+</html>

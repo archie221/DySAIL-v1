@@ -1,0 +1,57 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block content %}
+	<div class="jumbotron">
+  		<div class="container text-center">
+    		<h1 style="color: black;"><b><u>WELCOME TO DySAIL</u></b></h1>
+      		<h2 style="color: #B03060;">Dynamic seat Allocation in Library</h2>
+      		<br>
+      		<div class="text" >
+      			<b>DySAIL</b> acronym for Dynamic Seat Allocation in Library is quite a self explained name for a website. The solution to all problems of large population management, over a certain infrastructural resource, implemented in a flexible and user-friendly way. Centered basically on Library System, it consists of two user-interfaces, Student and Library Administration. Student Interface roots to the feature of viewing accurately and intricately mapped seats and their status in Library, and booking facility, which was incorporated owing to the fact of saving time and trouble of students in searching for seats. Whereas the root feature of Library Administration Interface coincides with the fact of managing large student check-in data in an efficient way<br><br>
+      			Login to get acquainted with the application and look into what more features DySAIL provides.       
+      		</div>		
+  		</div>
+	</div>
+	<br>
+	<br>
+    <div class="container-fluid bg-3 text-center">
+     	<div class="row">
+     		<div class="col-sm-6">
+      			<div class="container1 col-centered">
+      				<div class="border">
+	  					<img src="{% static 'home/student.jpg' %}" alt="student" class="image" style="width:100%">
+	  					<div class="middle">
+	    					<div class="text" style="color:#B03060;">
+	    						Want to secure a seat in Library?<br><br>
+	    						<p>Dont Worry!</p>
+	    						<p><b><i>DySAIL gives you wings</i></b></p>
+	    						<p>Login to snatch one for you</p>
+	    					</div>
+	    				</div>
+	    				<div class="bottom">
+	    					<button onclick="location.href='{% url 'login' %}';" class="butto">Student Login</button>
+	    				</div>
+  					</div>
+   				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="container2 col-centered">
+					<div class="border">
+	  					<img src="{% static 'home/kgplogo.jpg' %}" alt="student" class="image" style="width:100%">
+	  					<div class="middle">
+	    					<div class="text" style="color:#B03060;">
+	    						<p>Having problems in managing library check-in data of students?</p>
+	    						<p>Dont Worry!</p>
+	    						<p><b><i>DySAIL extends a helping hand</i></b></p>
+	    						<p>Login to organise such data</p>
+	    					</div>
+	    				</div>
+	    				<div class="bottom">
+	    					<button onclick="location.href='{% url 'lib-login' %}';" class="butto">KGP Library Login</button>
+	    				</div>
+  					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

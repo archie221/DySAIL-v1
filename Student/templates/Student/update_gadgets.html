@@ -1,0 +1,34 @@
+{% extends "home/base1.html" %}
+{% load static %} 
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="content-section" style="text-align: center;">
+    <h2>Update Your Gadgets</h2>
+  </div>
+  <br>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <div class="content-section">
+        <table class="table form-table table-sm" id="myTable">
+                            <tbody>
+                            {% for form in formset %}
+                                <tr>
+                                    {% for field in form %}
+                                        <td>
+                                            <div class="fieldWrapper">
+                                                {{ field|as_crispy_field }}
+                                            </div>
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <button class="btn btn-success" type="submit" style="width: 100%;" name="btn1">ADD</button>
+                    </div>
+                    <br>
+        <button class="btn btn-info" type="submit" name="btn2">Submit</button>
+    </form>
+{% endblock content %}
+

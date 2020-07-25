@@ -1,0 +1,97 @@
+{% extends "home/base1.html" %}
+{% block title %}{{user.username}}{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="content-section">
+            {% if bookseats.status == 0 %}
+            {% if extraseat_count == 0 %}
+                <p><h3>No Booking Yet</h3></p>
+                <ul>
+                    <li><h4>To book a single seat, click <b>SELECT SEAT</b> </h4></li>
+                    <li><h4>To book Multiple Seats, click <b>BOOK MULTIPLE SEATS</b> </h4></li>
+                </ul>
+            {% else %}
+                <p><h4 class="account-heading">Roll No of Clubbed Accounts for Multiple Booking</h4></p>
+                {% if bookseats.other == False %}
+                    <p><h5 class="text-secondary" style="color: black;">If any Roll No wrong as per requirement please select <b>Book Multiple Seats Again</b></h5></p>
+                {% else %}
+                    <p><h5 class="text-secondary" style="color: black;">In case any unwanted clubbing occured <b>End Clubbing</b> to enable <b>Book Multiple Seats Again</b></h5></p>
+                {% endif %}
+                {% for multipleseats in user.multipleseats_set.all %}
+                    {% if multipleseats.clubbed %}
+                        <p><h4 style="color:green"><b>{{multipleseats.Roll_No}}</b></h4></p>
+                    {% else %}
+                        <p><h4>{{multipleseats.Roll_No}}</h4></p>
+                    {% endif %}
+                {% endfor %}
+                <div class="border-top pt-3">
+                    <ul>
+                        <li><h5 style="color: black;"><b>Club Request Confirmation</b> is shown in <b>green</b></h5></li>
+                        <li><h5 style="color: black;"><b>Club Request Rejection</b> will result in <b>name deletion</b> from above</h5></li>
+                    </ul>
+                </div>
+                <div class="border-top pt-3">
+                    {% if flag %}
+                        <p><h5>Proceed to Select Seats for Clubbed Users</h5></p>
+                    {% else %}
+                        <p><h5>Seats cant be booked as some clubbed user has a booked seat already, so you can:</h5></p>
+                        <ul>
+                            <li><h5>Ask the clubbed user to cancel his booking</h5></li>
+                            <li><h5>End clubbing to book for youself</h5></li>
+                            <li><h5>End clubbing and then club again the users that dont have a booked seat yet</h5></li>
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        <br>
+        {% if bookseats.status == 0 %}
+            {% if bookseats.other == True and bookseats.leader == user.username and flag == True %}
+                <a href="{% url 'view-seats' %}" class="btn btn-info" role="button">Select Seat</a>
+            {% elif bookseats.other == False %}
+                <a href="{% url 'view-seats' %}" class="btn btn-info" role="button">Select Seat</a>
+                <a href="{% url 'book-multiple' %}" class="btn btn-info" role="button">Book Multiple Seats</a>
+            {% endif %}
+        {% else %}
+            <div class="content-section">
+                <p><h2 class="account-heading"><u>Your Booking Details</u></h2></p>
+                <p><h4><span style="color: black;">Roll No :</span> {{bookseats.user.username}}</h4></p>
+                <p><h4><span style="color: black;">Seat Name :</span> {{bookseats.seatbooked}}</h4></p>
+                <p><h4 style="color: black;">Booking Status : {% if bookseats.status == 1 %}<span style="color:orange"><b>Booked</b></span>{% elif bookseats.status == 2 %}<span style="color:lightgreen"><b>Occupied</b></span>{% elif bookseats.status == 3 %}<span style="color:yellow"><b>Idle</b></span>{% endif %}</h4></p>
+                {% if bookseats.status == 1 %}
+                    <p><h4><span style="color: black;">Reach By :</span> {{bookseats.expiry_time}}</h4></p>
+                    <div class="border-top pt-3">
+                        <p><h5 style="color:red">You have 30 minutes to reach library and check-in</h5></p>
+                    </div>
+                {% elif bookseats.status == 3 %}
+                    <p><h5>Reach By: {{bookseats.expiry_time}}</h5></p>
+                    <div class="border-top pt-3">
+                        {% if bookseats.overnight %}
+                            <p><h5 style="color:yellow"><b>Overnight Idling:</b> You have 9 hours to reach library and terminate idling</h5></p>
+                        {% else %}
+                            <p><h5 style="color:yellow">You have {{bookseats.idletime}} minutes to reach library and terminate idling</h5></p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            <br>
+            {% if bookseats.status == 1 or bookseats.status == 3 %}
+                <a href="{% url 'cancel-seat' %}" class="btn btn-danger" role="button">Cancel Booking</a>
+            {% endif %}
+        {% endif %}
+        </div>
+        <br>
+        {% if bookseats.other == True %}
+                <div class="content-section" style="text-align: center;">
+                {% if bookseats.leader == user.username %}
+                    <h4 style="color: black;">You  are leading a club currently</h4>
+                    <a href="{% url 'end-club' %}" class="btn btn-danger" role="button">End Clubbing</a>
+                {% else %}
+                    <h4 style="color: black;">Currently clubbed with <a href="{% url 'chatbox' bookseats.leader %}"><b>{{bookseats.leader}}</b></a></h4>
+                    <a href="{% url 'end-club' %}" class="btn btn-danger" role="button">End Clubbing</a>
+                </div>
+                {% endif %}
+        {% endif %}    
+    
+{% endblock content %}

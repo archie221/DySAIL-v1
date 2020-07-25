@@ -1,0 +1,40 @@
+{% extends "home/base1.html" %}
+{% block title %}{{user.username}}{% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="content-section">
+    	<h2 style="text-align: center;">Chatbox-{{chat.receiver}}</h2>
+	</div>
+	<br>
+	<br>
+	<div class="chat-container" >
+        {% for messages in chat.messenger_set.all %}
+	        {% if messages.send %}
+	        	{% if messages.first %}
+	        		<div class="message right">{{messages.message}}<span class="first-right"></span></div>
+	        	{% else %}
+	        		<div class="message right">{{messages.message}}</div>
+	        	{% endif %}
+	        {% else %}
+	        	{% if messages.first %}
+	        		<div class="message" style="background-color: #111;"><span class="first" style="border-top: 10px solid #111;"></span>{{messages.message}}</div>
+	        	{% else %}
+	        		<div class="message" style="background-color: #111;">{{messages.message}}</div>
+	        	{% endif %}
+	        {% endif %}
+		{% endfor %}
+    </div>
+	<div class="send-container">
+	    <form method="POST">
+	    	{% csrf_token %}
+	        <div class="row" style="margin: 0;" >
+	            <div class="col-sm-10 nopadding">
+	            	{{m_form|crispy}}
+	            </div>
+	            <div class="col-sm-2 nopadding">
+	            	<button type="submit" class="btn btn-success" style="width: 75px;">SEND</button>
+	            </div>
+	        </div>
+	    </form>
+	</div>
+{% endblock content %}
